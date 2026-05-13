@@ -1,0 +1,2 @@
+mkdir -p ~/textprint-server
+nano ~/textprint-server/server.py
