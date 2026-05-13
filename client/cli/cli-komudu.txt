@@ -1,0 +1,24 @@
+#!/bin/bash
+
+SERVER=""
+TEXT=""
+PRINTER=""
+
+for arg in "$@"; do
+    if [[ $arg == server=* ]]; then
+        SERVER="${arg#server=}"
+    elif [[ $arg == to* ]]; then
+        PRINTER="${arg#to }"
+    elif [[ -z "$TEXT" ]]; then
+        TEXT="$arg"
+    fi
+done
+
+if [ -z "$SERVER" ] || [ -z "$TEXT" ] || [ -z "$PRINTER" ]; then
+    echo 'Kullanım: textprint server=IP "METİN" to PRINTER'
+    exit 1
+fi
+
+curl -s -X POST "http://$SERVER:5000/print" \
+    -d "text=$TEXT" \
+    -d "printer=$PRINTER"
